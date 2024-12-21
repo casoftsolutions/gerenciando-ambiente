@@ -34,7 +34,7 @@ jobs:
 
     cd-producao-fake: 
         needs: [teste-and-quality]
-        uses: casoftsolutions/gerenciando-ambiente/.github/workflows/main.yml@main
+        uses: casoftsolutions/gerenciando-ambiente/.github/workflows/cd.producao.yml@main
         with:
             ambiente: producao
             url: https://producao.fake.com
