@@ -6,16 +6,31 @@ on:
             - main
             - develop
     workflow_dispatch:
-        inputs:
-            AMBIENTE_DEPLOY:
-                type: choice
-                options:
-                    - homologacao
-                    - producao 
+        # inputs:
+        #     AMBIENTE_DEPLOY:
+        #         type: choice
+        #         options:
+        #             - homologacao
+        #             - producao 
 jobs:
-    deploy-fake: 
+    deploy-homologacao-fake: 
         runs-on: ubuntu-latest
-        environment: ${{ inputs.AMBIENTE_DEPLOY }}
+        environment: homologacao # usando o valor do input ${{ inputs.AMBIENTE_DEPLOY }}
         steps:
             - name: Fake de deploy em ambiente
+              run: echo "Deploy no ambiente de ${{ vars.AMBIENTE_DEPLOY }}"
+
+    teste-fake: 
+        runs-on: ubuntu-latest
+        environment: homologacao # usando o valor do input ${{ inputs.AMBIENTE_DEPLOY }}
+        needs: [deploy-homologacao-fake]
+        steps:
+            - name: Realizado testes
+              run: echo "Teste no ambiente de ${{ vars.AMBIENTE_DEPLOY }}"
+
+    deploy-producao-fake: 
+        runs-on: ubuntu-latest
+        environment: producao
+        steps:
+            - name: Realizado Fake testes
               run: echo "Deploy no ambiente de ${{ vars.AMBIENTE_DEPLOY }}"
