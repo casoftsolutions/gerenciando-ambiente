@@ -15,14 +15,18 @@ on:
 jobs:
     deploy-homologacao-fake: 
         runs-on: ubuntu-latest
-        environment: homologacao # usando o valor do input ${{ inputs.AMBIENTE_DEPLOY }}
+        environment:
+            name: homologacao
+            url: https://homologacao.fake.com 
         steps:
             - name: Fake de deploy em ambiente
               run: echo "Deploy no ambiente de ${{ vars.AMBIENTE_DEPLOY }}"
 
     teste-fake: 
         runs-on: ubuntu-latest
-        environment: homologacao # usando o valor do input ${{ inputs.AMBIENTE_DEPLOY }}
+        environment: 
+            name: homologacao
+            url: https://homologacao.fake.com 
         needs: [deploy-homologacao-fake]
         steps:
             - name: Realizado testes
@@ -30,7 +34,10 @@ jobs:
 
     deploy-producao-fake: 
         runs-on: ubuntu-latest
-        environment: producao
+        environment: 
+            name: producao
+            url: https://producao.fake.com
+        needs: [teste-fake]
         steps:
             - name: Realizado Fake testes
               run: echo "Deploy no ambiente de ${{ vars.AMBIENTE_DEPLOY }}"
