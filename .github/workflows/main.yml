@@ -5,6 +5,13 @@ on:
         branches:
             - main
             - develop
+    workflow_dispatch:
+        inputs:
+            AMBIENTE_DEPLOY:
+                type: choice
+                options:
+                    - homologacao
+                    - producao 
 jobs:
     deploy-fake:
         runs-on: ubuntu-latest
