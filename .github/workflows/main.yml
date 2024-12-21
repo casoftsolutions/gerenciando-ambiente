@@ -13,31 +13,32 @@ on:
         #             - homologacao
         #             - producao 
 jobs:
-    deploy-homologacao-fake: 
+    build-aplicacao: 
         runs-on: ubuntu-latest
         environment:
             name: homologacao
             url: https://homologacao.fake.com 
         steps:
-            - name: Fake de deploy em ambiente
+            - name: Build da aplicacao
               run: echo "Deploy no ambiente de ${{ vars.AMBIENTE_DEPLOY }}"
 
-    teste-fake: 
+    teste-and-quality: 
         runs-on: ubuntu-latest
         environment: 
             name: homologacao
             url: https://homologacao.fake.com 
-        needs: [deploy-homologacao-fake]
+        needs: [build-aplicacao]
         steps:
             - name: Realizado testes
               run: echo "Teste no ambiente de ${{ vars.AMBIENTE_DEPLOY }}"
 
-    deploy-producao-fake: 
-        runs-on: ubuntu-latest
-        environment: 
-            name: producao
+    cd-producao-fake: 
+        needs: [teste-and-quality]
+        uses: casoftsolutions/gerenciando-ambiente/.github/workflows/main.yml@main
+        with:
+            ambiente: producao
             url: https://producao.fake.com
-        needs: [teste-fake]
-        steps:
-            - name: Realizado Fake testes
-              run: echo "Deploy no ambiente de ${{ vars.AMBIENTE_DEPLOY }}"
+
+
+
+#desafio: criar um  cd.producao.yaml para o ambiente de producao e passar  como parametro o ambiente de deploy             

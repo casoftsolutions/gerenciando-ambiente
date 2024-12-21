@@ -1,0 +1,22 @@
+name: CD Fake
+on: 
+    workflow_call:
+        inputs:
+            ambiente:
+                required: true
+                type: string
+                description: 'Ambiente de deploy'
+            url:
+                required: true
+                type: string
+                description: 'Url do ambiente de deploy'
+
+jobs:
+    deploy-producao: 
+        runs-on: ubuntu-latest
+        environment: 
+            name: ${{ inputs.ambiente}}
+            url: ${{ inputs.url}}
+        steps:
+            - name: Realizado Fake testes
+              run: echo "Deploy no ambiente de ${{ inputs.ambiente}} com url ${{ inputs.url }}"
